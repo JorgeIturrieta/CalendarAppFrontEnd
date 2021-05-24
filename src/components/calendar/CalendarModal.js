@@ -5,7 +5,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventClearActiveEvent, eventUpdated } from '../../actions/calendar';
+import { eventStartAddNew, eventClearActiveEvent, eventStartUpdated } from '../../actions/calendar';
 
 
 const customStyles = {
@@ -41,6 +41,7 @@ export const CalendarModal = () => {
             setformValues(activeEvent);
             setdateStart(activeEvent.start);
             setDateEnd(activeEvent.end);
+            console.log('activeEvent',activeEvent);
         } else {
             
             setformValues(initEvent);
@@ -95,19 +96,12 @@ export const CalendarModal = () => {
             }
             // TODO: REALIZAR grabacion en base de datos
           if(activeEvent) {
-              // Modificando un evento existente
-              dispatch(eventUpdated(formValues))
+              // Modificando un evento existente            
+              dispatch(eventStartUpdated(formValues));
           } else {
               // Es un nuevo evento
 
-              dispatch(eventAddNew({
-                ...formValues,
-                id: new Date().getTime() ,
-                user: {
-                    _id: '1234' ,
-                    name: 'Jorgeee'
-                }
-            })) ;
+              dispatch(eventStartAddNew(formValues)) ;
 
           } 
             setTitleValid(true);
